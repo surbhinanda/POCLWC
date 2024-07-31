@@ -1,0 +1,250 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
+	<!-- Header Question -->
+	<div class="slds-outer-layout_container">
+		<div class="slds-inner-layout_container">
+			<!-- Header Question -->
+			<h1 class="slds-text-heading_large">
+				Check your remaining entitlements
+			</h1>
+			<p>
+				The city has a range of on-demand collection services. Properties can access each of the following
+				services once every financial year(1 July - 30 June):
+			</p>
+			<p>
+				Skip bin hire: A 3m3 skip bin can be delivered to your home for general household waste
+			</p>
+			<p>
+				Mattresses: A maximum of six items can be collected as part of this service (one mattress and one base
+				equals two items).
+            </p>
+            <p>
+				White goods: A maximum of four items can be collected, including fridges, freezers, ovens, cooktops,
+				washing machines, clothes dryers and dishwashers.
+			</p>
+			<p>
+				Electronic waste: A maximum of six items can be collected, such as computers, televisions, printers and scanners.
+			</p>
+			<p>
+				Additional skip bin: In the event that you have already used your one free skip bin service for the year, you can order additional skip bins via the City of Stirling at a cost of $85.
+			</p>
+		</div>
+	</div>
+	<!-- Selection -->
+	<div class="slds-outer-layout_container">
+		<div class="slds-inner-layout_container">
+			
+            <label class="slds-form-element__label" for="combobox-button-37">Address Search</label>
+            <c-on-demand-address-lookup initial-selection={address} 
+                                        address-id={addressId} 
+                                        show-entitlement-info={showEntitlementInfo} 
+                                        is-extra-service={isExtraService} 
+                                        onclickchange={handleAddressChange} 
+                                        onconfirmoverride={handleEntitlementOverride}
+                                        show-header = false>
+            </c-on-demand-address-lookup>
+
+<template if:true={addressId}> 
+			<lightning-record-view-form
+            object-api-name="Address__c"
+            record-id={addressId}>
+            <div class="slds-grid">
+                <div class="slds-var-p-horizontal_medium">
+                    <!-- entitlement available -->
+                    <lightning-output-field field-name="Available_E_Waste_Service__c"></lightning-output-field>
+                    <lightning-output-field field-name="Available_Mattresses_Service__c"></lightning-output-field>
+                    <lightning-output-field field-name="Available_White_Goods__c"></lightning-output-field>
+                    <lightning-output-field field-name="Available_Skip_bin__c"></lightning-output-field>
+                </div>
+                <div class="slds-var-p-horizontal_medium">
+                    <!-- entitlement booked -->
+                    <lightning-output-field field-name="Booked_Utilized_E_Waste__c"></lightning-output-field>
+                    <lightning-output-field field-name="Booked_Utilized_Mattresses__c"></lightning-output-field>
+                    <lightning-output-field field-name="Booked_Utilized_White_Goods__c"></lightning-output-field>
+                    <lightning-output-field field-name="Booked_Utilized_Skip_bin__c"></lightning-output-field>
+                </div>
+                <div class="slds-var-p-horizontal_medium">
+                    <!-- entitlement given -->
+                    <lightning-output-field field-name="Entitlements_for_E_Waste__c"></lightning-output-field>
+                    <lightning-output-field field-name="Entitlements_for_Mattresses__c"></lightning-output-field>
+                    <lightning-output-field field-name="Entitlements_for_White_Goods__c"></lightning-output-field>
+                    <lightning-output-field field-name="Entitlements_for_Skip_bin__c"></lightning-output-field>
+                    <lightning-output-field field-name="Entitlements_for_Additional_Skip_bin__c"></lightning-output-field>
+                </div>
+            </div>
+        </lightning-record-view-form>
+
+<template if:true={selectAddress}>
+
+        <div class="slds-visual-pickers__container">
+                    <fieldset class="slds-form-element slds-visual-pickers__container" >
+                        <div class="slds-form-element__control">
+                            <div class="slds-visual-pickers__container">
+                                <div class="slds-visual-picker__container">
+                                    <div
+                                        class="slds-visual-picker slds-visual-picker_medium slds-visual-picker-select large">
+                                        <div for="skipbin"  style="max-width: 320px;">
+                                            <span
+                                                class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center"
+                                                style="border: 1px solid #002a42;"
+                                                >
+                                                <span>
+                                                    <svg class="slds-icon slds-icon_large slds-icon-fed-car-parking"
+                                                        aria-hidden="true">
+                                                        <use href={iconSkipBin}></use>
+                                                    </svg>
+                                                </span>
+                                                <span class="slds-text-title">Skip bins</span>
+                                            </span>
+                                            <span class="slds-visual-picker__body" style="border: 1px solid #002a42;background-color: #002a42;height: 60px;padding-top: 0px;">
+                                                <div style="color: #d7d7d7;">
+                                                    <p style="margin: 0px;color: white;">
+                                                        Available : {selectAddress.Available_Skip_bin__c}
+                                                    </p>
+                                                    <p style="color: white;">
+                                                        Booked : {selectAddress.Booked_Utilized_Skip_bin__c}
+                                                    </p>
+                                                </div>
+                                            </span>
+                                            <span class="slds-icon_container slds-visual-picker__text-check">
+                                                <svg class="slds-icon slds-icon-text-check slds-icon_x-small"
+                                                    aria-hidden="true">
+                                                    <use href={checkUrl}></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="slds-visual-pickers__container">
+                                <div class="slds-visual-picker__container">
+                                    <div
+                                        class="slds-visual-picker slds-visual-picker_medium slds-visual-picker-select large">
+                                        <input type="radio" id="mattresses" value="Mattress" name="enquirytypeSelection"  />
+                                        <div for="mattresses"  style="max-width: 320px;">
+                                            <span
+                                                class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center"
+                                                style="border: 1px solid #002a42;"
+                                                >
+                                                <span>
+                                                    <svg class="slds-icon slds-icon_large slds-icon-fed-car-parking"
+                                                        aria-hidden="true">
+                                                        <use href={iconMatresses}></use>
+                                                    </svg>
+                                                </span>
+                                                <span class="slds-text-title">Mattresses</span>
+                                            </span>
+                                            <span class="slds-visual-picker__body" style="border: 1px solid #002a42;background-color: #002a42;height: 60px;padding-top: 0px;">
+                                                 <div style="color: #d7d7d7;">
+                                                    <p style="margin: 0px;color: white;">
+                                                        Available : {selectAddress.Available_Mattresses_Service__c}
+                                                    </p>
+                                                    <p style="color: white;">
+                                                        Booked : {selectAddress.Booked_Utilized_Mattresses__c}
+                                                    </p>
+                                                </div>
+                                            </span>
+                                            <span class="slds-icon_container slds-visual-picker__text-check">
+                                                <svg class="slds-icon slds-icon-text-check slds-icon_x-small"
+                                                    aria-hidden="true">
+                                                    <use href={checkUrl}></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Selection 3 -->
+                            <div class="slds-visual-pickers__container">
+                                <div class="slds-visual-picker__container">
+                                    <div
+                                        class="slds-visual-picker slds-visual-picker_medium slds-visual-picker-select large">
+                                        <input type="radio" id="whitegoods" value="WhiteGood" name="enquirytypeSelection"  />
+                                        <div for="whitegoods"  style="max-width: 320px;">
+                                            <span
+                                                class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center"
+                                                style="border: 1px solid #002a42;"
+                                                >
+                                                <span>
+                                                    <svg class="slds-icon slds-icon_large slds-icon-fed-car-parking"
+                                                        aria-hidden="true">
+                                                        <use href={iconWhitegoods}></use>
+                                                    </svg>
+                                                </span>
+                                                <span class="slds-text-title">White goods</span>
+                                            </span>
+                                            <span class="slds-visual-picker__body"  style="border: 1px solid #002a42;background-color: #002a42;height: 60px;padding-top: 0px;">
+                                                 <div style="color: #d7d7d7;">
+                                                    <p style="margin: 0px;color: white;">
+                                                        Available : {selectAddress.Available_White_Goods__c}
+                                                    </p>
+                                                    <p style="color: white;">
+                                                        Booked : {selectAddress.Booked_Utilized_White_Goods__c}
+                                                    </p>
+                                                </div>
+                                            </span>
+                                            <span class="slds-icon_container slds-visual-picker__text-check">
+                                                <svg class="slds-icon slds-icon-text-check slds-icon_x-small"
+                                                    aria-hidden="true">
+                                                    <use href={checkUrl}></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Selection 4 -->
+                            <div class="slds-visual-picker__container">
+                                <div class="slds-visual-picker slds-visual-picker_medium slds-visual-picker-select large">
+                                    <input type="radio" id="ewaste" value="EWaste" name="enquirytypeSelection"/>
+                                    <div for="ewaste" style="max-width: 320px;">
+                                        <span
+                                            class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center"
+                                                style="border: 1px solid #002a42;"
+                                                >
+                                            <span>
+                                                <svg class="slds-icon slds-icon_large slds-icon-fed-car-parking"
+                                                    aria-hidden="true">
+                                                    <use href={iconEWatse}></use>
+                                                </svg>
+                                            </span>
+                                            <span class="slds-text-title">E-Waste</span>
+                                        </span>
+                                        <span class="slds-visual-picker__body"   style="border: 1px solid #002a42;background-color: #002a42;height: 60px;padding-top: 0px;">
+                                            
+                                            <div style="color: #d7d7d7;">
+                                                <p style="margin: 0px;color: white;">
+                                                    Available : {selectAddress.Available_E_Waste_Service__c}
+                                                </p>
+                                                <p style="color: white;">
+                                                    Booked : {selectAddress.Booked_Utilized_E_Waste__c}
+                                                </p>
+                                            </div>
+                                        </span>
+                                        <span class="slds-icon_container slds-visual-picker__text-check">
+                                            <svg class="slds-icon slds-icon-text-check slds-icon_x-small"
+                                                aria-hidden="true">
+                                                <use href={checkUrl}></use>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </fieldset>
+                </div>
+                </template> 
+</template>
+
+
+		</div>
+	</div>
+	<!-- End Selection -->
+
+
+</template>
