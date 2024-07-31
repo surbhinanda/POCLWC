@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<script src="	https://stirling--dev.sandbox.my.site.com/stirling/lightning/lightning.out.js"></script>
+  <div>
+    <h1>Hello From LWC POC Html File.</h1>
+  </div>
+<div data-lightning-out="true"></div>
+<script>
+    const appName='c:LWCPOC';
+    const componentname='c:onDemandRemainingEntitlement';
+    const lightningEndPoint='	https://stirling--dev.sandbox.my.site.com/stirling';
+    const targetElement=document.querySelector("[data-lightning-out]");
+     $Lightning.use(
+        appName, 
+        function() {
+        $Lightning.createComponent(
+            componentname, {
+            },
+            targetElement ,
+              function(cmp) {
+                console.log("LWC component was created");
+                // do some stuff
+              }
+          );
+        },
+        lightningEndPoint
+      );
+</script>
+</html>
